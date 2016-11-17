@@ -52,8 +52,8 @@ autoreq: yes
 BuildArch: noarch
 
 Source0:  https://repository.apache.org/content/repositories/releases/org/apache/brooklyn/brooklyn-dist/%{version}/brooklyn-dist-%{version}-dist.tar.gz
-Source1:  https://raw.githubusercontent.com/apache/brooklyn-dist/rel/apache-brooklyn-0.9.0/rpm-packaging/src/conf/brooklyn.conf
-Source2:  https://github.com/apache/brooklyn-dist/raw/rel/apache-brooklyn-0.9.0/rpm-packaging/src/conf/logback.xml
+Source1:  https://github.com/apache/brooklyn-dist/raw/rel/apache-brooklyn-%{version}/packaging/src/conf/brooklyn.conf
+Source2:  https://github.com/apache/brooklyn-dist/raw/rel/apache-brooklyn-%{version}/packaging/src/conf/logback.xml
 Source3:  %{name}.service
 
 Requires(preun): systemd-units
