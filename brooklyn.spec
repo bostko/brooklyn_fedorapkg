@@ -15,30 +15,18 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
 
 %global basedir %{_var}/lib/%{name}
 %global confdir %{_sysconfdir}/%{name}
 %global homedir %{_datadir}/%{name}
 %global libdir %{_javadir}/%{name}
 %global logdir %{_var}/log/%{name}
-%global packdname brooklyn-dist-%{version}
+%global packdname apache-brooklyn-%{version}-bin
 
 %define _binaries_in_noarch_packages_terminate_build 0
 %define __jar_repack 0
 Name: brooklyn
-Version: 0.9.0
+Version: 0.10.0
 Release: 0
 Summary: Apache Brooklyn
 License: ASL 2.0
@@ -51,10 +39,10 @@ autoprov: yes
 autoreq: yes
 BuildArch: noarch
 
-Source0:  https://repository.apache.org/content/repositories/releases/org/apache/brooklyn/brooklyn-dist/%{version}/brooklyn-dist-%{version}-dist.tar.gz
-Source1:  https://github.com/apache/brooklyn-dist/raw/rel/apache-brooklyn-%{version}/packaging/src/conf/brooklyn.conf
-Source2:  https://github.com/apache/brooklyn-dist/raw/rel/apache-brooklyn-%{version}/packaging/src/conf/logback.xml
-Source3:  %{name}.service
+Source0: https://dist.apache.org/repos/dist/dev/brooklyn/apache-brooklyn-%{version}-rc1/apache-brooklyn-%{version}-rc1-bin.tar.gz
+Source1: https://raw.githubusercontent.com/apache/brooklyn-dist/rel/apache-brooklyn-%{version}-rc1/shared-packaging/src/main/resources/conf/brooklyn.conf
+Source2: https://raw.githubusercontent.com/apache/brooklyn-dist/rel/apache-brooklyn-%{version}-rc1/shared-packaging/src/main/resources/conf/logback.xml
+Source3: %{name}.service
 
 Requires(preun): systemd-units
 Requires(postun): systemd-units
@@ -107,7 +95,7 @@ popd
 
 %pre
 /bin/getent group brooklyn || /sbin/groupadd -r brooklyn
-                            /bin/getent passwd brooklyn || /sbin/useradd -r -g brooklyn -d %{basedir} -s /usr/share/nologin brooklyn
+/bin/getent passwd brooklyn || /sbin/useradd -r -g brooklyn -d %{basedir} -s /usr/share/nologin brooklyn
 
 %post
 %systemd_post brooklyn.service
@@ -116,8 +104,11 @@ popd
 %systemd_preun brooklyn.service
 
 %postun
-%systemd_postun
+%systemd_postun brooklyn.service
 
 %changelog
+* Wed Dec 7 2016 Valentin Aitken <bostko@gmail.com>
+- Apache Broklyn 0.10.0.rc1
+
 * Fri Apr 15 2016 Valentin Aitken <bostko@gmail.com>
 - Apache Broklyn 0.9.0
