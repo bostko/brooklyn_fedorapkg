@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ -r /usr/share/java-utils/java-functions ]; then
+  . /usr/share/java-utils/java-functions
+else
+  echo "Can't read Java functions library, aborting"
+  exit 1
+fi
+
+MAIN_CLASS=org.apache.brooklyn.cli.Main
+
+FLAGS="$JAVA_OPTS"
+
+if [ "$1" = "start" ] ; then
+  run launch --noGlobalBrooklynProperties --persistenceDir /var/lib/brooklyn --localBrooklynProperties /etc/brooklyn/brooklyn.conf --persist auto
+elif [ "$1" = "stop" ] ; then
+  run stop
+fi

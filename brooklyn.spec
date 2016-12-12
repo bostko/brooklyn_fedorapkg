@@ -39,10 +39,12 @@ autoprov: yes
 autoreq: yes
 BuildArch: noarch
 
-Source0: https://dist.apache.org/repos/dist/dev/brooklyn/apache-brooklyn-%{version}-rc1/apache-brooklyn-%{version}-rc1-bin.tar.gz
-Source1: https://raw.githubusercontent.com/apache/brooklyn-dist/rel/apache-brooklyn-%{version}-rc1/shared-packaging/src/main/resources/conf/brooklyn.conf
-Source2: https://raw.githubusercontent.com/apache/brooklyn-dist/rel/apache-brooklyn-%{version}-rc1/shared-packaging/src/main/resources/conf/logback.xml
+Source0: https://dist.apache.org/repos/dist/dev/brooklyn/apache-brooklyn-%{version}-rc2/apache-brooklyn-%{version}-rc2-bin.tar.gz
+Source1: https://raw.githubusercontent.com/apache/brooklyn-dist/rel/apache-brooklyn-%{version}-rc2/shared-packaging/src/main/resources/conf/brooklyn.conf
+Source2: https://raw.githubusercontent.com/apache/brooklyn-dist/rel/apache-brooklyn-%{version}-rc2/shared-packaging/src/main/resources/conf/logback.xml
 Source3: %{name}.service
+Source4: brooklyn-server
+Source5: LICENSE
 
 Requires(preun): systemd-units
 Requires(postun): systemd-units
@@ -63,6 +65,10 @@ It monitors those deployments, maintains a live model, and runs autonomic polici
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{logdir}
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{homedir}
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_unitdir}
+%{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{_libexecdir}/%{name}
+
+%{__install} -m 0755 %{SOURCE4} \
+    ${RPM_BUILD_ROOT}%{_libexecdir}/%{name}/server
 
 %{__install} -m 0644 %{SOURCE1} ${RPM_BUILD_ROOT}%{confdir}/brooklyn.conf
 %{__install} -m 0644 %{SOURCE2} ${RPM_BUILD_ROOT}%{confdir}/logback.xml
@@ -87,6 +93,7 @@ popd
 %config %attr(644,brooklyn,brooklyn)  "%{confdir}/logback.xml"
 %config %attr(644,brooklyn,brooklyn)  "%{libdir}/*.jar"
 %attr(0644,root,root) %{_unitdir}/%{name}.service
+%attr(0755,root,root) %{_libexecdir}/%{name}/server
 
 %dir %{homedir}
 %{homedir}/lib
