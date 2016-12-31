@@ -39,9 +39,9 @@ autoprov: yes
 autoreq: yes
 BuildArch: noarch
 
-Source0: https://dist.apache.org/repos/dist/dev/brooklyn/apache-brooklyn-%{version}-rc2/apache-brooklyn-%{version}-rc2-bin.tar.gz
-Source1: https://raw.githubusercontent.com/apache/brooklyn-dist/rel/apache-brooklyn-%{version}-rc2/shared-packaging/src/main/resources/conf/brooklyn.conf
-Source2: https://raw.githubusercontent.com/apache/brooklyn-dist/rel/apache-brooklyn-%{version}-rc2/shared-packaging/src/main/resources/conf/logback.xml
+Source0: https://www.apache.org/dyn/closer.lua?action=download&filename=brooklyn/apache-brooklyn-%{version}/apache-brooklyn-%{version}-bin.tar.gz
+Source1: https://raw.githubusercontent.com/apache/brooklyn-dist/%{version}/shared-packaging/src/main/resources/conf/brooklyn.conf
+Source2: https://raw.githubusercontent.com/apache/brooklyn-dist/%{version}/shared-packaging/src/main/resources/conf/logback.xml
 Source3: %{name}.service
 Source4: brooklyn-server
 Source5: LICENSE
@@ -114,6 +114,9 @@ popd
 %systemd_postun brooklyn.service
 
 %changelog
+* Tue Dec 13 2016 Valentin Aitken <bostko@gmail.com>
+- Revert to a stable release 0.9.0
+
 * Wed Dec 7 2016 Valentin Aitken <bostko@gmail.com>
 - Apache Broklyn 0.10.0.rc1
 
